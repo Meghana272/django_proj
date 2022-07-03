@@ -1,0 +1,247 @@
+<html>
+   <head>
+      {% load static %}
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script> 
+         function validateForm()                                    
+{ 
+    var name = document.forms["myForm"]["name"];               
+    var email = document.forms["myForm"]["email"];    
+    var message = document.forms["myForm"]["message"];   
+    if (name.value == "")                                  
+    { 
+        document.getElementById('errorname').innerHTML="Please enter a valid name";  
+        name.focus(); 
+        return false; 
+    }else{
+        document.getElementById('errorname').innerHTML="";  
+    }
+       
+    if (email.value == "")                                   
+    { 
+        document.getElementById('erroremail').innerHTML="Please enter a valid email address"; 
+        email.focus(); 
+        return false; 
+    }else{
+        document.getElementById('erroremail').innerHTML="";  
+    }
+   
+    if (email.value.indexOf("@", 0) < 0)                 
+    { 
+        document.getElementById('erroremail').innerHTML="Please enter a valid email address"; 
+        email.focus(); 
+        return false; 
+    } 
+   
+    if (email.value.indexOf(".", 0) < 0)                 
+    { 
+        document.getElementById('erroremail').innerHTML="Please enter a valid email address"; 
+        email.focus(); 
+        return false; 
+    } 
+   
+    if (message.value == "")                           
+    {
+        document.getElementById('errormsg').innerHTML="Please enter a valid message"; 
+        message.focus(); 
+        return false; 
+    }else{
+        document.getElementById('errormsg').innerHTML="";  
+    }
+   
+    return true; 
+}
+      </script> 
+      <style>
+         h1{
+  text-align: center;
+}
+body{
+   background-image:url('img11.jpg');
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+.form-style {
+  margin:10px auto;
+  width: 400px;
+  padding: 20px 12px 10px 20px;
+  font: 14px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  border-radius: 50px;
+  border: 5px solid black;
+  background-image:url('img10.png');
+}
+.form-style td {
+  padding: 0;
+  display: block;
+  list-style: none;
+  margin: 10px 0 0 0;
+}
+.form-style label{
+  margin:0 0 3px 0;
+  padding:0px;
+  display:block;
+  font-weight: bold;
+}
+.form-style .required{
+  color:red;
+}
+.form-style input[type=submit], .form-style input[type=reset]{
+  background: #4eb5f1;
+  padding: 8px 15px 8px 15px;
+  border: none;
+  color: #fff;
+}
+.form-style input[type=submit]:hover, .form-style input[type=reset]:hover{
+  background: #4eb5f1;
+  box-shadow:none;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+}
+.form-style .field-textarea{
+  height: 100px;
+}
+.form-style input[type=text], 
+.form-style input[type=email],
+textarea{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border:1px solid #BEBEBE;
+  padding: 7px;
+  margin:0px;
+}
+.form-style .long{
+  width: 100%;
+}
+.form-style input[type=text]:focus, 
+.form-style input[type=email]:focus,
+.form-style textarea:focus{
+  -moz-box-shadow: 0 0 8px #88D5E9;
+  -webkit-box-shadow: 0 0 8px #88D5E9;
+  box-shadow: 0 0 8px #88D5E9;
+  border: 1px solid #88D5E9;
+}
+.error{
+  color: #D8000C;
+  background-color: #FFBABA;
+}
+      </style>
+   </head>
+   <body>
+      <h1 style="color: rgb(255, 255, 255);">Contact form</h1>
+      <form name="myForm" action="/file.php" onsubmit="return validateForm()" method="post">
+         <table class="form-style">
+            <tr>
+               <td>
+                  <label>
+                     Your name <span class="required">*</span>
+                  </label>
+               </td>
+               <td>
+                  <input type="text" name="name" class="long"/>
+                  <span class="error" id="errorname"></span>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label>
+                    Your email address <span class="required">*</span>
+                  </label>
+               </td>
+               <td>
+                  <input type="email" name="email" class="long"/>
+                  <span class="error" id="erroremail"></span>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label>
+                     Message <span class="required">*</span>
+                  </label>
+               </td>
+               <td>
+                  <textarea name="message" class="long field-textarea"></textarea>
+                  <span class="error" id="errormsg"></span>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label>
+                     Genre <span class="required">*</span>
+                  </label>
+               </td>
+               <td>
+                  <div class="row">
+                     <div class="col-lg-12">
+                         <div id="inputFormRow">
+                             <div class="input-group mb-3">
+                                 <input type="text" name="title[]" class="form-control m-input" placeholder="Enter Genre" autocomplete="off">
+                                 <div class="input-group-append">
+                                     <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
+                                 </div>
+                             </div>
+                         </div>
+                         <div id="newRow"></div>
+                         <button id="addRow" type="button" class="btn btn-info">Add Genre</button>
+                     </div>
+                 </div>
+                 <script type="text/javascript">
+                  // add row
+                  $("#addRow").click(function () {
+                      var html = '';
+                      html += '<div id="inputFormRow">';
+                      html += '<div class="input-group mb-3">';
+                      html += '<input type="text" name="title[]" class="form-control m-input" placeholder="Enter title" autocomplete="off">';
+                      html += '<div class="input-group-append">';
+                      html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+                      html += '</div>';
+                      html += '</div>';
+          
+                      $('#newRow').append(html);
+                  });
+          
+                  // remove row
+                  $(document).on('click', '#removeRow', function () {
+                      $(this).closest('#inputFormRow').remove();
+                  });
+              </script>
+               </td>
+            </tr>
+            <tr>
+                <td><h2>Comments, If you have any</h2></td>
+                <td><input type="button" value='Yes' onclick="Form()">
+                    <div id="data1"></div>
+                <script>
+                    function Form(){
+                        var data="Topic:<input type='text' name='name'><br>Comment:<br><textarea rows='5' cols='80'></textarea><br><br><input type='submit' value='Post'>";
+                        document.getElementById('data1').innerHTML=data;
+                    }
+                </script></td>
+            </tr>
+            <tr>
+               <td></td>
+               <td>
+                  <input type=button value=Check onclick='return validateForm()'>
+                  <input type="submit" value="Submit" onclick='return myFunction1();'>
+                  <script>function myFunction1(){
+                    if (confirm("Your form has been submitted")) {
+                    return true;
+                    }
+                    else
+                    return false;
+                    }</script>   
+                  <input type=reset value=reset onclick='return myFunction();'>
+                  <script>function myFunction(){
+                    if (confirm("Are you sure you want to reset all the fields")) {
+                    return true;
+                    }
+                    else
+                    return false;
+                    }</script> 
+               </td>
+            </tr>
+         </table>
+      </form>
+   </body>
+</html>
